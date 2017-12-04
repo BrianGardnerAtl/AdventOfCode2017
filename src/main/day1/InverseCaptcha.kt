@@ -21,6 +21,23 @@ class InverseCaptcha {
         return sum
     }
 
+    fun calculateHalfwayAroundDigitCaptcha(input : String) : Int {
+        var sum = 0
+
+        val digits = input.asIterable()
+                .map { it.toString().toInt() }
+
+        val size = digits.size
+        val halfway = digits.size / 2
+
+        digits.forEachIndexed { index, digit ->
+            val halfwayIndex = (index + halfway) % size
+            sum += captchaCompare(digit, digits[halfwayIndex])
+        }
+
+        return sum
+    }
+
     private fun captchaCompare(first : Int, second : Int) : Int {
         return if (first == second) {
             first
